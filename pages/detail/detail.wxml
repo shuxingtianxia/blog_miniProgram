@@ -1,0 +1,129 @@
+<!--pages/detail/detail.wxml-->
+<scroll-view scroll-y class="DrawerPage" scroll-with-animation="true"
+  style="background-color: #fff;">
+  <cu-custom bgImage="https://www.datealive.top/wp-content/uploads/2020/10/wave.gif" isBack="{{false}}"
+    isCustom="{{true}}" isNav="{{false}}">
+    <view slot="backText">返回</view>
+    <view slot="content" class="text-shadow-meows">
+      <text class="text-white text-bold">{{title}}</text>
+    </view>
+  </cu-custom>
+  <add-tips name="登录后绑定邮箱即可评论" custom/>
+  <view bindtouchstart="touchStart" bindtouchend="touchEnd" class="flex justify-center align-center bg-white"
+    style="width:100%; height:460rpx; background-image:url({{headimg}}); background-repeat: no-repeat; background-size: 100% 100%;">
+  </view>
+
+
+  <view class="padding solid s-bottom margin-top">
+    <view class="flex-sub text-center margin-sm">
+      <view class="text-xxl">
+        <text class="text-black text-bold">{{title}}</text>
+      </view>
+    </view>
+
+
+    <view class="cf">
+      <view class="margin-sm text-center">
+        <view class="cu-capsule round">
+          <view class="cu-tag bg-red sm">
+            <text class="cuIcon-likefill"></text>
+          </view>
+          <view class="cu-tag line-red sm">
+            {{lovecnt}}
+          </view>
+        </view>
+        <view class="cu-capsule round">
+          <view class="cu-tag bg-orange sm">
+            <text class="cuIcon-hotfill"></text>
+          </view>
+          <view class="cu-tag line-orange sm">
+            {{readcnt}}
+          </view>
+        </view>
+        <view class="cu-capsule round">
+          <view class="cu-tag  bg-purple sm">
+            <text class="cuIcon-cascades"></text>
+          </view>
+          <view class="cu-tag line-purple sm">
+            {{category_name}}
+          </view>
+        </view>
+        <view class="cu-capsule round">
+          <view class="cu-tag  bg-blue sm">
+            <text class="cuIcon-timefill"></text>
+          </view>
+          <view class="cu-tag line-blue sm">
+            {{posttime}}
+          </view>
+        </view>
+        <text class="cu-capsule" decode="{{true}}">&nbsp;</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="margin-sm">
+    <htmltowxml text="{{postContent}}" linenums="{{false}}" highlightStyle="darcula" type="md"
+      bindWxmlTagATap="wxmlTagATap"></htmltowxml>
+  </view>
+  <view class="grid col-5 padding-lg justify-center">
+  <view class="cu-bar btn-group">
+  <button class="cu-btn bg-red icon" bindtap="LovethisPost">
+    <text class="cuIcon-appreciate"></text>
+  </button>
+  <button class="cu-btn bg-gradual-red icon" bindtap="showQrcode">
+    <text class="cuIcon-sponsor"></text>
+  </button>
+  <button class="cu-btn bg-green icon" bindtap="createShareImage">
+    <text class="cuIcon-share"></text>
+  </button>
+  </view>
+  </view>
+  <view class="cu-bar bg-white align-center">
+    <view class="action border-title">
+      <text class="text-xxl text-bold text-blue">评论</text>
+      <text class="bg-gradual-blue"></text>
+    </view>
+  </view>
+  <!--评论-->
+  <comments allcomments="{{allcomments}}" bind:parentcomment="parentcomment" bind:childcomment="childcomment">
+  </comments>
+  <!--end-->
+  <view class='placeholder-view'></view>
+  <view class="cu-bar input tabar">
+    <view class="action">
+      <open-data type="userAvatarUrl" class="cu-avatar sm round margin-left text-grey"></open-data>
+    </view>
+    <view class="action">
+      <text class="cuIcon-roundadd text-grey" bind:tap="clickadduserinfo" data-target="bottomModal"></text>
+    </view>
+    <view class="cu-modal bottom-modal {{modalName=='bottomModal'?'show':''}}">
+      <view class="cu-dialog">
+        <view class="cu-bar bg-white">
+          <view class="action text-green" bind:tap="saveinfo">确定</view>
+          <view class="action text-blue" bindtap="hideModal">取消</view>
+        </view>
+        <view class="padding-xs">
+          <view class="cu-form-group margin-top">
+            <view class="title">邮箱</view>
+            <input bindinput="inputemail" focus="{{false}}" maxlength="300" cursor-spacing="10"
+      placeholder="{{inputemail}}"></input>
+          </view>
+        </view>
+      </view>
+    </view>
+    <input class="solid-bottom" bindinput="inputcontent" focus="{{false}}" maxlength="300" cursor-spacing="10"
+      placeholder="{{inputcontent}}"></input>
+    <view class="action">
+      <block wx:if="{{!hiddenbutton}}">
+        <button class="cu-btn round bg-blue shadow-blur" open-type="getUserInfo"
+          bindgetuserinfo="bindGetUserInfo">登录</button>
+      </block>
+      <block wx:else>
+        <button class="cu-btn round bg-blue shadow-blur" bind:tap="submitcontent">发送</button>
+      </block>
+    </view>
+    <text class="cuIcon-share text-green" bindtap="createShareImage"></text>
+  </view>
+  <share-box isCanDraw="{{isCanDraw}}" bind:initData="createShareImage" title="{{title}}" headimg="{{headimg}}" readcnt="{{readcnt}}"
+                                                                        category_name="{{category_name}}" posttime="{{posttime}}"/>
+</scroll-view>

@@ -1,0 +1,23 @@
+<scroll-view scroll-y class="DrawerPage" scroll-with-animation="true" style="background-color: bg-grey;">
+  <cu-custom bgColor="bg-gradual-blue">
+    <view slot="content">首页</view>
+  </cu-custom>
+  <!-- 加载数据 -->
+  <view class="canui-load" wx:if="{{loadModal}}">
+    <view class='cu-load load-modal text-blue' wx:if="{{loadModal}}">
+      <view class='icon-discoverfill text-blue'></view>
+      <image src='/images/loading.png' class='png' mode='aspectFit'></image>
+      <view class='gray-text'>加载中...</view>
+    </view>
+  </view>
+  <add-tips name="将“书行天下”添加到我的小程序" custom />
+  <!-- 轮播图 -->
+  <swipe swiperList="{{bannersPost}}" />
+  <view style="margin-right:20rpx; margin-left:20rpx;">
+    <official-account style=""></official-account>
+  </view>
+  <!-- 搜索 -->
+  <search />
+  <!-- 文章列表 -->
+  <articles articles="{{articles}}"></articles>
+</scroll-view>
