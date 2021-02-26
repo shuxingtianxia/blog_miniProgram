@@ -21,6 +21,7 @@ Component({
     palette: {
       type: Object,
       observer: function (newVal, oldVal) {
+        console.log(newVal, 'startPaint')
         if (this.isNeedRefresh(newVal, oldVal)) {
           this.paintCount = 0;
           this.startPaint();
@@ -73,7 +74,9 @@ Component({
           getApp().systemInfo = wx.getSystemInfoSync();
         } catch (e) {
           const error = `Painter get system info failed, ${JSON.stringify(e)}`;
-          that.triggerEvent('imgErr', { error: error });
+          that.triggerEvent('imgErr', {
+            error: error
+          });
           console.log(error);
           return;
         }
@@ -81,7 +84,11 @@ Component({
       screenK = getApp().systemInfo.screenWidth / 750;
 
       this.downloadImages().then((palette) => {
-        const { width, height } = palette;
+        const {
+          width,
+          height
+        } = palette;
+        // .toPx()   是把rpx转成px，没有单位
         this.canvasWidthInPx = width.toPx();
         this.canvasHeightInPx = height.toPx();
         if (!width || !height) {
@@ -136,7 +143,9 @@ Component({
                   },
                   fail: (error) => {
                     console.log(`imgDownloadErr failed, ${JSON.stringify(error)}`);
-                    that.triggerEvent('imgDownloadErr', { error: error });
+                    that.triggerEvent('imgDownloadErr', {
+                      error: error
+                    });
                   },
                   complete: () => {
                     completeCount++;
@@ -170,7 +179,9 @@ Component({
           },
           fail: function (error) {
             console.log(`canvasToTempFilePath failed, ${JSON.stringify(error)}`);
-            that.triggerEvent('imgErr', { error: error });
+            that.triggerEvent('imgErr', {
+              error: error
+            });
           },
         }, this);
       }, 300);
@@ -184,12 +195,16 @@ Component({
           if (that.paintCount > MAX_PAINT_COUNT) {
             const error = `The result is always fault, even we tried ${MAX_PAINT_COUNT} times`;
             console.log(error);
-            that.triggerEvent('imgErr', { error: error });
+            that.triggerEvent('imgErr', {
+              error: error
+            });
             return;
           }
           // 比例相符时才证明绘制成功，否则进行强制重绘制
           if (Math.abs((infoRes.width * that.canvasHeightInPx - that.canvasWidthInPx * infoRes.height) / (infoRes.height * that.canvasHeightInPx)) < 0.01) {
-            that.triggerEvent('imgOK', { path: filePath });
+            that.triggerEvent('imgOK', {
+              path: filePath
+            });
           } else {
             that.startPaint();
           }
@@ -197,7 +212,9 @@ Component({
         },
         fail: (error) => {
           console.log(`getImageInfo failed, ${JSON.stringify(error)}`);
-          that.triggerEvent('imgErr', { error: error });
+          that.triggerEvent('imgErr', {
+            error: error
+          });
         },
       });
     },

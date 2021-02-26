@@ -32,8 +32,8 @@ Page({
   // 赞赏支持
   showQrcode() {
     wx.previewImage({
-      urls: ['https://imapi.datealive.top/zanshang/img/weipayimg.jpg'],
-      current: 'https://imapi.datealive.top/zanshang/img/weipayimg.jpg' // 当前显示图片的http链接      
+      urls: ['http://blog.booktianxia.top/static/img/wx.fcc3636.jpg'],
+      current: 'http://blog.booktianxia.top/static/img/wx.fcc3636.jpg' // 当前显示图片的http链接      
     })
   }
 })

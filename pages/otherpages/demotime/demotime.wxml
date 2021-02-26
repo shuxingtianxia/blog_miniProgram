@@ -5,7 +5,7 @@
     <view slot="backText">返回</view>
     <view slot="content">项目进展</view>
   </cu-custom>
-<view class="bg-img padding-tb-xl" style="background-image: url('https://www.datealive.top/wp-content/uploads/2020/05/26.jpg');height: 414rpx;">
+<view class="bg-img padding-tb-xl" style="background-image: url('https://datealive.top/wp-content/uploads/2020/05/26.jpg');height: 414rpx;">
 </view>
 
 <view class="cu-timeline">

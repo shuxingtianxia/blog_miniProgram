@@ -65,9 +65,9 @@ Page({
   },
   onShareAppMessage: function (res) {
     return {
-      title: '梦独吟博客小程序',
+      title: '书行天下博客小程序',
       path: '/pages/index/index',
-      imageUrl: 'https://www.datealive.top/wp-content/uploads/2020/10/16036409421.png',
+      imageUrl: 'https://datealive.top/wp-content/uploads/2020/10/16036409421.png',
     }
   }
 })

@@ -10,7 +10,7 @@
     </view>
     <view class="cu-list menu-avatar">
       <view class="cu-item">
-        <view class="cu-avatar round lg" style="background-image:url(https://www.datealive.top/wp-content/uploads/2020/05/26.jpg);"></view>
+        <view class="cu-avatar round lg" style="background-image:url(https://datealive.top/wp-content/uploads/2020/05/26.jpg);"></view>
         <view class="content flex-sub">
           <view class="text-grey">书行天下</view>
           <view class="text-gray text-sm flex justify-between">

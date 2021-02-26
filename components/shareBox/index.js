@@ -44,6 +44,7 @@ Component({
         visible: false
       })
     },
+    // 画图
     drawPic() {
       if (this.data.sharePath) { //如果已经绘制过了本地保存有图片不需要重新绘制
         this.setData({
@@ -55,6 +56,7 @@ Component({
       wx.showLoading({
         title: '生成中'
       })
+      console.log('this.data.headimg', this.data.headimg)
       this.setData({
         imgDraw:  {
           background: '#f7f7f7',
@@ -112,7 +114,7 @@ Component({
             },
             {
               type: 'text',
-              text: '作者：梦独吟',
+              text: '作者：书行天下',
               css: {
                 top: '570rpx',
                 left: '80rpx',
@@ -158,7 +160,7 @@ Component({
             },
             {
               type: 'text',
-              text: '分享自「Halo Dream」',
+              text: '分享自「书行天下」',
               css: {
                 bottom: '230rpx',
                 left: '350rpx',
@@ -168,7 +170,7 @@ Component({
             },
             {
               type: 'text',
-              text: 'Halo Dream By 梦独吟',
+              text: '书行天下 By 小劳',
               css: {
                 bottom: '60rpx',
                 left: '375rpx',
@@ -188,6 +190,7 @@ Component({
       })
     },
     onImgOK(e) {
+      console.log(e)
       wx.hideLoading()
       this.setData({
         sharePath: e.detail.path,

@@ -1,6 +1,6 @@
 /* pages/home/home.wxss */
 .UCenter-bg {
-  background-image: url(https://www.datealive.top/wp-content/uploads/2020/05/backiee-27941.jpg);
+  background-image: url(https://datealive.top/wp-content/uploads/2020/05/backiee-27941.jpg);
   background-size: cover;
   height: 550rpx;
   display: flex;
