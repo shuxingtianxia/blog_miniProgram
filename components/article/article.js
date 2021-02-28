@@ -24,10 +24,10 @@ Component({
    */
   methods: {
     itemClick(e){
-      const id=(this.data.item.id || this.data.item.post_id)
-      const comments=(this.data.item.total_comments || this.data.item.comment_total)
+      // console.log(this.data.item);
+      const id = (this.data.item._id || this.data.item.post_id)
       wx.navigateTo({
-        url: '/pages/detail/detail?id='+id+'&comments='+comments,
+        url: '/pages/detail/detail?id='+id,
       })
       //console.log(this.data.item)
     }

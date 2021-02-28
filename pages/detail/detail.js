@@ -1,3 +1,4 @@
+import { $wx } from '../../utils/util'
 // pages/detail/detail.js
 import {
   getpostData,
@@ -6,6 +7,7 @@ import {
   PostLove,
   PostMore
 } from '../../service/detail.js'
+
 Page({
   /**
    * 页面的初始数据
@@ -45,6 +47,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options.id);
     const id = options.id
     const limit = options.comments
     this._getpostData(id)
@@ -58,11 +61,12 @@ Page({
   onShow: function () {
     this._login()
   },
-  //登录
+  // 判断是否登录
   _login() {
     var that = this
     wx.getSetting({
       success(res) {
+        console.log(res);
         if (res.authSetting['scope.userInfo']) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称
           wx.getUserInfo({
@@ -80,34 +84,39 @@ Page({
       }
     })
   },
+
   //文章详情
   _getpostData(id) {
     getpostData(id).then(res => {
-      const postContent = res.data.content.rendered
-      const title = res.data.title.rendered
-      const headimg = res.data.post_full_image || res.data.post_medium_image || res.data.post_large_image || res.data.post_thumbnail_image 
-      const lovecnt = res.data.like_count
-      const readcnt = res.data.pageviews
-      const posttime = res.data.post_date
-      const comments = res.data.total_comments
-      const category_name = res.data.category_name
-      //  console.log(tags)
-      this.setData({
-        postContent,
-        title,
-        headimg,
-        lovecnt,
-        readcnt,
-        posttime,
-        comments,
-        category_name
-      })
-
+      if(res.code === 0) {
+        const result = res.data
+        console.log(result);
+        const postContent = result.articleContent
+        const title = result.articleName
+        const headimg = result.articleImgUrl
+        const lovecnt = result.likeCount
+        const readcnt = result.views
+        const posttime = result.time
+        const comments = result.comments
+        const category_name = result.articleCategory
+        //  console.log(tags)
+        this.setData({
+          postContent, // 文章内容
+          title, // 标题
+          headimg, // 分享头像
+          lovecnt, // 点赞数量
+          readcnt, //查看数量
+          posttime,
+          comments,
+          category_name
+        })
+      }
     }).catch(err => {
       console.log(err)
     })
 
   },
+
   //评论详情
   _getComments(id, limit) {
 
@@ -122,6 +131,7 @@ Page({
       console.log(err)
     })
   },
+
   wxmlTagATap(e) {
     wx.setClipboardData({
       data: e.detail.src,
@@ -250,9 +260,9 @@ Page({
     }
 
   },
-  //
+  // 点击登录
   bindGetUserInfo: function (e) {
-    //console.log(e)
+    console.log(e.detail.userInfo, 'e.detail.userInfo')
     if (e.detail.userInfo) {
       //用户按了允许授权按钮
       var that = this;
@@ -263,8 +273,9 @@ Page({
         islogin: true,
         hiddenbutton: true
       });
-      wx.setStorageSync('avatarUrl', e.detail.userInfo.avatarUrl)
-      wx.setStorageSync('nickName', e.detail.userInfo.nickName)
+      $wx.wxLogin()
+      // wx.setStorageSync('avatarUrl', e.detail.userInfo.avatarUrl)
+      // wx.setStorageSync('nickName', e.detail.userInfo.nickName)
     } else {
       //用户按了拒绝按钮
       wx.showModal({

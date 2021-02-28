@@ -1,18 +1,32 @@
 import request from '../service/network.js'
 import { BASEURL } from './config.js'
+
+// 获取banner
 export function bannersData(){
   return  request({
-    url:'posts?filter[orderby]=rand'
+    url: '/banner'
   })
 }
+
+// 获取文章信息
 export function articleDatas(page){
   return  request({
-    url:'posts',
-    data:{
+    url: '/index_article',
+    data: {
       page:page
     }
   })
 }
+
+// 登录
+export function onLogin(data){
+  return  request({
+    url: '/onLogin',
+    method: 'get',
+    data
+  })
+}
+
 export function ratingarticles(){
   return  new Promise((resolve,reject)=>{
     wx.request({

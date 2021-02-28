@@ -2,23 +2,23 @@
 <view class="cu-card radius radius shadow-blur case  animation-scale-up" bind:tap="itemClick" style="animation-delay: {{(index+1)*0.2*animationTime}}s;">
 <view class="cu-item radius">
     <view class="image">
-      <image src="{{item.post_full_image || imgurl}}" mode="heightFix"></image>
+      <image src="{{item.articleImgUrl || imgurl}}" mode="heightFix"></image>
       <view class="cu-tag radius bg-grey" wx:if="{{item.category_name}}">{{item.category_name}}</view>
       <view class="cu-bar bg-shadeBottom">
-        <text class="text-cut">{{item.title.rendered || item.post_title}}</text>
+        <text class="text-cut">{{item.articleName}}</text>
       </view>
     </view>
     <view class="cu-list menu-avatar">
       <view class="cu-item">
-        <view class="cu-avatar round lg" style="background-image:url(https://datealive.top/wp-content/uploads/2020/05/26.jpg);"></view>
+        <view class="cu-avatar round lg" style="background-image:url(https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2852940133,1230672300&fm=26&gp=0.jpg);"></view>
         <view class="content flex-sub">
           <view class="text-grey">书行天下</view>
           <view class="text-gray text-sm flex justify-between">
             {{item.post_date}}
             <view class="text-gray text-sm">
-              <text class="cuIcon-attentionfill margin-lr-xs"></text> {{item.pageviews}}
-              <text class="cuIcon-appreciatefill margin-lr-xs"></text> {{item.like_count}}
-              <text class="cuIcon-messagefill margin-lr-xs"></text> {{item.total_comments>=0?item.total_comments:item.comment_total}}
+              <text class="cuIcon-attentionfill margin-lr-xs"></text> {{item.views}}
+              <text class="cuIcon-appreciatefill margin-lr-xs"></text> {{item.likeCount}}
+              <text class="cuIcon-messagefill margin-lr-xs"></text> {{item.comment.length}}
             </view>
           </view>
         </view>

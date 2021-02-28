@@ -1,6 +1,6 @@
 <!-- pages/detail/detail.wxml -->
 <scroll-view scroll-y class="DrawerPage" scroll-with-animation="true" style="background-color: #fff;">
-  <cu-custom bgImage="https://datealive.top/wp-content/uploads/2020/10/wave.gif" isBack="{{false}}" isCustom="{{true}}" isNav="{{false}}">
+  <cu-custom bgImage="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1815748282,1755984517&fm=26&gp=0.jpg" isBack="{{false}}" isCustom="{{true}}" isNav="{{false}}">
     <view slot="backText">返回</view>
     <view slot="content" class="text-shadow-meows">
       <text class="text-white text-bold">{{title}}</text>
@@ -16,24 +16,28 @@
     </view>
     <view class="cf">
       <view class="margin-sm text-center">
+        <!-- 点赞人数 -->
         <view class="cu-capsule round">
           <view class="cu-tag bg-red sm">
             <text class="cuIcon-likefill"></text>
           </view>
           <view class="cu-tag line-red sm">{{lovecnt}}</view>
         </view>
+        <!-- 浏览量 -->
         <view class="cu-capsule round">
           <view class="cu-tag bg-orange sm">
             <text class="cuIcon-hotfill"></text>
           </view>
           <view class="cu-tag line-orange sm">{{readcnt}}</view>
         </view>
-        <view class="cu-capsule round">
+        <!-- 分类 -->
+        <view class="cu-capsule round" wx:if="{{category_name}}">
           <view class="cu-tag  bg-purple sm">
             <text class="cuIcon-cascades"></text>
           </view>
           <view class="cu-tag line-purple sm">{{category_name}}</view>
         </view>
+        <!-- 时间 -->
         <view class="cu-capsule round">
           <view class="cu-tag  bg-blue sm">
             <text class="cuIcon-timefill"></text>

@@ -1,5 +1,7 @@
 //index.js
 const app = getApp()
+
+
 import {
   bannersData,
   articleDatas
@@ -16,7 +18,6 @@ Page({
   onLoad: function (options) {
     this._BannersData()
     this._articleDatas()
-
   },
   // 获取banner数据
   _BannersData() {
@@ -32,11 +33,13 @@ Page({
   _articleDatas() {
     const page = this.data.page + 1
     articleDatas(page).then(res => {
-      if (res.statusCode === 200) {
+      console.log(res);
+      if (res.code === 0) {
         //  console.log(res.data)
-        const newarticles = res.data
+        const newarticles = res.data.data
         const oldarticles = this.data.articles
         oldarticles.push(...newarticles)
+        console.log(oldarticles);
         this.setData({
           articles: oldarticles,
           page: page,
