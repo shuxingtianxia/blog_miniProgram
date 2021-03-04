@@ -1,7 +1,8 @@
+import { $wx } from './utils/util'
 //app.js
 App({
   onLaunch: function() {
-    // 获取系统状态栏信息
+    // 获取系统状态栏信息(设备信息)
     wx.getSystemInfo({
       success: e => {
         this.globalData.StatusBar = e.statusBarHeight;
@@ -14,6 +15,10 @@ App({
         }
       }
     })
+  },
+  async onShow(options) {
+    let isLogin = await $wx.checkSession()
+    console.log('isLogin', isLogin)
   },
   
   globalData: {

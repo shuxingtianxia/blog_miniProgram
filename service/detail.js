@@ -2,55 +2,37 @@ import request from '../service/network.js'
 import { BASEURL } from './config.js'
 
 // 获取详情
-export function getpostData(id){
+export function getpostData(data){
   return  request({
     url: '/index_detail',
-    data: {
-      id
-    }
+    data
   })
 }
 
 // 获取评论
-export function getComments(id,limit,page){
-  return  new Promise((resolve,reject)=>{
-    wx.request({
-      url: BASEURL+'/wp-json/watch-life-net/v1/comment/getcomments',
-      method: 'get',
-      data:{
-        postid:id,
-        limit:limit,
-        page:page
-      },
-      success:resolve,
-      fail:reject
-    })
+export function getComments(data){
+  return request({
+    url: '/index_detail_comments',
+    method: 'get',
+    data
   })
 }
 
 // 发送评论
-export function sendComment(datas){
-  return  new Promise((resolve,reject)=>{
-    wx.request({
-      url: BASEURL+'/wp-json/watch-life-net/v1/comment/add',
-      method: 'post',
-      data:datas,
-      success:resolve,
-      fail:reject
-    })
+export function sendComment(data){
+  return request({
+    url: '/index_detail_comment',
+    method: 'post',
+    data
   })
 }
 
 // 点赞
-export function PostLove(datas){
-  return  new Promise((resolve,reject)=>{
-    wx.request({
-      url: BASEURL+'/wp-json/watch-life-net/v1/post/like',
-      method: 'post',
-      data:datas,
-      success:resolve,
-      fail:reject
-    })
+export function PostLove(data){
+  return request({
+    url: '/index_detail_like',
+    method: 'post',
+    data
   })
 }
 

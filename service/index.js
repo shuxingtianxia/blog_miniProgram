@@ -9,12 +9,10 @@ export function bannersData(){
 }
 
 // 获取文章信息
-export function articleDatas(page){
+export function articleDatas(data){
   return  request({
     url: '/index_article',
-    data: {
-      page:page
-    }
+    data
   })
 }
 

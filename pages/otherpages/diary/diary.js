@@ -1,7 +1,7 @@
 // pages/otherpages/diary/diary.js
-import { 
+import {
   diaries
- } from '../../../service/diary.js'
+} from '../../../service/diary.js'
 Page({
 
   /**
@@ -9,8 +9,8 @@ Page({
    */
   data: {
     loading: true,
-    diaryContent:'',
-    loadModal:true
+    diaryContent: '',
+    loadModal: true
   },
 
   /**
@@ -19,8 +19,8 @@ Page({
   onLoad: function (options) {
     this._diaries()
   },
-  _diaries(){
-    diaries().then(res=>{
+  _diaries() {
+    diaries().then(res => {
       for (let i = 0; i < res.data.data.length; i++) {
         let color = this.getRandomColor();
         res.data.data[i].textColor = "text-" + color;
@@ -28,9 +28,9 @@ Page({
       }
       this.setData({
         diaryContent: res.data.data,
-        loadModal:false
+        loadModal: false
       })
-    }).catch(err=>{
+    }).catch(err => {
       console.log(err)
     })
   },

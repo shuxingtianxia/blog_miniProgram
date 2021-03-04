@@ -1,23 +1,23 @@
-<!--pages/otherpages/rating/rating.wxml-->
+<!-- pages/otherpages/rating/rating.wxml -->
 <scroll-view scroll-y class="scrollPage">
   <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
     <view slot="backText">返回</view>
     <view slot="content">文章排行榜</view>
   </cu-custom>
-        <!--加载数据-->
-        <view class="canui-load" wx:if="{{loadModal}}">
+  <!-- 加载数据 -->
+  <view class="canui-load" wx:if="{{loadModal}}">
     <view class='cu-load load-modal text-blue' wx:if="{{loadModal}}">
-        <view class='icon-discoverfill text-blue'></view>
-        <image src='/images/loading.png' class='png' mode='aspectFit'></image> 
-        <view class='gray-text'>加载中...</view>
+      <view class='icon-discoverfill text-blue'></view>
+      <image src='/images/loading.png' class='png' mode='aspectFit'></image>
+      <view class='gray-text'>加载中...</view>
     </view>
-</view>
-  <!--文章列表-->
-<articles articles="{{articles}}"></articles>
-<view class="cu-load bg-white over margin-top-xl"></view>
-<view class="cu-bar bg-white margin-top">
-  <view class='action'>
-    <text class='sm'></text>
   </view>
-</view>
+  <!-- 文章列表 -->
+  <articles articles="{{articles}}"></articles>
+  <view class="cu-load bg-white over margin-top-xl"></view>
+  <view class="cu-bar bg-white margin-top">
+    <view class='action'>
+      <text class='sm'></text>
+    </view>
+  </view>
 </scroll-view>

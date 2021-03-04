@@ -15,7 +15,7 @@ Component({
    */
   data: {
     replyname:'',
-    replyid:0
+    replyId:0
   },
 
   /**
@@ -23,34 +23,35 @@ Component({
    */
   methods: {
     clickparentcomments(e){
+      console.log(e, '123456')
       const replyname=e.currentTarget.dataset.name
-      const replyid=e.currentTarget.dataset.id
-      const formId=e.currentTarget.dataset.formId
+      const replyId=e.currentTarget.dataset.id
+      const formId=e.currentTarget.dataset.formid
       const userid=e.currentTarget.dataset.userid
       this.setData({
         replyname,
-        replyid
+        replyId
       })
       const data={
-        'replyid':this.data.replyid,
-        'replyname':this.data.replyname,
-        'formId':formId,
-        'userid':userid
+        'replyId': this.data.replyId,
+        'replyname': this.data.replyname,
+        'formId': formId,
+        'userid': userid
       }
       this.triggerEvent('parentcomment',data,{})
     },
     clickcchildcomments(e){
  
       const replyname=e.currentTarget.dataset.name
-      const replyid=e.currentTarget.dataset.id
+      const replyId=e.currentTarget.dataset.id
       const formId=e.currentTarget.dataset.formId
       const userid=e.currentTarget.dataset.userid
       this.setData({
         replyname,
-        replyid
+        replyId
       })
       const data={
-        'replyid':this.data.replyid,
+        'replyId':this.data.replyId,
         'replyname':this.data.replyname,
         'formId':formId,
         'userid':userid

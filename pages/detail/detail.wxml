@@ -7,6 +7,7 @@
     </view>
   </cu-custom>
   <add-tips name="登录后绑定邮箱即可评论" custom />
+  <!-- 文章图片 -->
   <view bindtouchstart="touchStart" bindtouchend="touchEnd" class="flex justify-center align-center bg-white" style="width:100%; height:460rpx; background-image:url({{headimg}}); background-repeat: no-repeat; background-size: 100% 100%;"></view>
   <view class="padding solid s-bottom margin-top">
     <view class="flex-sub text-center margin-sm">
@@ -53,7 +54,7 @@
   </view>
   <view class="grid col-5 padding-lg justify-center">
     <view class="cu-bar btn-group">
-      <button class="cu-btn bg-red icon" bindtap="LovethisPost">
+      <button class="cu-btn icon {{isLike ? 'bg-red' : ''}}" bindtap="LovethisPost">
         <text class="cuIcon-appreciate"></text>
       </button>
       <button class="cu-btn bg-gradual-red icon" bindtap="showQrcode">

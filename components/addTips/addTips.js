@@ -15,7 +15,7 @@ Component({
     },
     logo: {
       type: String,
-      value: 'https://imapi.datealive.top/tp/component-add_tips.png'
+      value: 'https://dss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=208703736,1500950703&fm=58'
     },
     custom: {
       type: Boolean,

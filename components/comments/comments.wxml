@@ -2,14 +2,14 @@
 <block wx:if="{{allcomments.length>0?true:false}}">
   <block wx:for="{{allcomments}}" wx:key="index" wx:for-index="allindex">
     <view class="cu-chat">
-      <view class="cu-item" bind:tap="clickparentcomments" data-id="{{item.id}}" data-name="{{item.author_name}}"
+      <view class="cu-item" bind:tap="clickparentcomments" data-id="{{item._id}}" data-name="{{item.username}}"
         data-userid="{{item.userid}}" data-formId="{{item.formId}}">
         <view class="basis-xs">
-          <view class="cu-avatar lg round margin-left-sm" style="background-image:url({{item.author_url}});"></view>
+          <view class="cu-avatar lg round margin-left-sm" style="background-image:url({{item.userId.avatarUrl}});"></view>
         </view>
         <view class="grid col-1 basis-xl solid-bottom" style="min-height:120rpx;">
           <view class="padding-xs">
-            <text class="text-black text-bold">{{item.author_name}}</text>
+            <text class="text-black text-bold">{{item.username}}</text>
             <view class="fr text-xs" style="line-height: 32rpx;">
               <text class="text-grey">{{item.date}}</text>
             </view>
@@ -22,16 +22,15 @@
         </view>
       </view>
       <!--一级回复-->
-      <view wx:for="{{item.child}}" wx:for-item="item1" wx:key="itemid1" wx:for-index="idx"
-        bind:tap="clickcchildcomments" data-id="{{item1.id}}" data-name="{{item1.author_name}}"
+      <view wx:for="{{item.child}}" wx:for-item="item1" wx:key="itemid1" wx:for-index="idx" data-id="{{item1._id}}" data-name="{{item1.username}}"
         data-userid="{{item1.userid}}" data-formId="{{item1.formId}}">
         <view class="cu-item">
           <view class="basis-xs">
-            <view class="cu-avatar lg round margin-left-sm" style="background-image:url({{item1.author_url}});"></view>
+            <view class="cu-avatar lg round margin-left-sm" style="background-image:url({{item1.avatar}});"></view>
           </view>
           <view class="grid col-1 basis-xl solid-bottom" style="min-height:120rpx;">
             <view class="padding-xs">
-              <text class="text-black text-bold">{{item1.author_name}} @ {{item.author_name}}</text>
+              <text class="text-black text-bold">{{item1.username}} @ {{item.username}}</text>
               <view class="fr text-xs" style="line-height: 32rpx;">
                 <text class="text-grey">{{item1.date}}</text>
               </view>
@@ -46,7 +45,7 @@
         <!--二级回复-->
 
         <view wx:for="{{item1.child}}" wx:for-item="item2" wx:key="itemid2" wx:for-index="idx" data-id="{{item2.id}}"
-          data-name="{{item2.author_name}}" data-userid="{{item2.userid}}" data-formId="{{item2.formId}}">
+          data-name="{{item2.username}}" data-userid="{{item2.userid}}" data-formId="{{item2.formId}}">
           <view class="cu-item">
             <view class="basis-xs">
               <view class="cu-avatar lg round margin-left-sm" style="background-image:url({{item2.author_url}});">
@@ -54,7 +53,7 @@
             </view>
             <view class="grid col-1 basis-xl solid-bottom" style="min-height:120rpx;">
               <view class="padding-xs">
-                <text class="text-black text-bold">{{item2.author_name}} @ {{item1.author_name}}</text>
+                <text class="text-black text-bold">{{item2.username}} @ {{item1.username}}</text>
                 <view class="fr text-xs" style="line-height: 32rpx;">
                   <text class="text-grey">{{item2.date}}</text>
                 </view>
@@ -68,7 +67,7 @@
           </view>
           <!--三级回复-->
           <view wx:for="{{item2.child}}" wx:for-item="item3" wx:key="itemid3" wx:for-index="idx" data-id="{{item3.id}}"
-            data-name="{{item3.author_name}}" data-userid="{{item3.userid}}" data-formId="{{item3.formId}}">
+            data-name="{{item3.username}}" data-userid="{{item3.userid}}" data-formId="{{item3.formId}}">
             <view class="cu-item">
               <view class="basis-xs">
                 <view class="cu-avatar lg round margin-left-sm" style="background-image:url({{item3.author_url}});">
@@ -76,7 +75,7 @@
               </view>
               <view class="grid col-1 basis-xl solid-bottom" style="min-height:120rpx;">
                 <view class="padding-xs">
-                  <text class="text-black text-bold">{{item3.author_name}} @ {{item2.author_name}}</text>
+                  <text class="text-black text-bold">{{item3.username}} @ {{item2.username}}</text>
                   <view class="fr text-xs" style="line-height: 32rpx;">
                     <text class="text-grey">{{item3.date}}</text>
                   </view>
@@ -98,7 +97,7 @@
                 </view>
                 <view class="grid col-1 basis-xl solid-bottom" style="min-height:120rpx;">
                   <view class="padding-xs">
-                    <text class="text-black text-bold">{{item4.author_name}} @ {{item3.author_name}}</text>
+                    <text class="text-black text-bold">{{item4.username}} @ {{item3.username}}</text>
                     <view class="fr text-xs" style="line-height: 32rpx;">
                       <text class="text-grey">{{item4.date}}</text>
                     </view>
@@ -114,10 +113,6 @@
           </view>
         </view>
       </view>
-
-
-
-
     </view>
   </block>
 </block>

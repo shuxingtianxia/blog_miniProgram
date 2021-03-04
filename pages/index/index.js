@@ -13,7 +13,8 @@ Page({
     articles: [],
     isload: true,
     page: 0,
-    loadModal: true
+    loadModal: true,
+    paging: {}
   },
   onLoad: function (options) {
     this._BannersData()
@@ -32,10 +33,12 @@ Page({
   // 获取文章数据
   _articleDatas() {
     const page = this.data.page + 1
-    articleDatas(page).then(res => {
-      console.log(res);
+    articleDatas({page}).then(res => {
       if (res.code === 0) {
-        //  console.log(res.data)
+        const { count, limit, page, pages } = res.data
+        this.data.paging = {
+          count, limit, page, pages
+        }
         const newarticles = res.data.data
         const oldarticles = this.data.articles
         oldarticles.push(...newarticles)
@@ -60,6 +63,8 @@ Page({
     })
   },
   onReachBottom() {
+    const { count, limit, page, pages } = this.data.paging
+    if(pages <= page) return
     this.setData({
       loadModal: true
     })

@@ -1,4 +1,4 @@
-const BASEURL="http://192.168.43.5:6677"
+const BASEURL="http://localhost:6677"
 export{
   BASEURL
 }

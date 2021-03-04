@@ -15,15 +15,6 @@ const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : `0${n}`
 }
-
-const vmLogin = n => {
-  wx.login({
-    success(res) {
-      console.log(res, '=====================');
-    }
-  })
-}
-
 const $wx = {
   // 获取微信code
   getWxCode () {
@@ -92,10 +83,11 @@ const $wx = {
           // wx.setStorageSync('code', code)
           // wx.setStorageSync('uid', res.data.talkAccid)
           // wx.setStorageSync('sdktoken', res.data.talkToken)
-          // wx.setStorageSync('token', res.data.token)
+          wx.setStorageSync('token', res.data.token)
           // wx.setStorageSync('userCode', res.data.userCode)
           // wx.setStorageSync('unionId', res.data.wxUserInfoDto.unionid)
-          wx.setStorageSync('userInfo', { nickName: res.data.nickName, avatar: res.data.avatarUrl })
+          wx.setStorageSync('userInfo', { nickName: res.data.nickName, avatar: res.data.avatarUrl, userId: res.data.userId })
+          
           if (res.data.phone) {
             wx.setStorageSync('phone', res.data.phone)
           }
@@ -150,6 +142,5 @@ const $wx = {
 
 module.exports = {
   formatTime,
-  vmLogin,
   $wx
 }

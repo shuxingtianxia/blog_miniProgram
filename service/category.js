@@ -1,15 +1,17 @@
 import request from '../service/network.js'
-export function categoryData(cnt){
+
+// 分类数据
+export function categoryData(){
   return  request({
-    url:'categories?per_page='+cnt
+    url:'/index_category'
   })
 }
-export function categoryatticles(per_page,id){
-  return  request({
-    url:'posts',
-    data:{
-      per_page:per_page,
-      categories:id
-    }
+
+// 查找单个分类的数据
+export function categoryArticles(data){
+  return request({
+    url:'/index_article_category',
+    method: 'get',
+    data
   })
 }

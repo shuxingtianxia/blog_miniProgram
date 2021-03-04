@@ -16,6 +16,7 @@ Page({
     postContent: '',
     headimg: '',
     title: '',
+    isLike: false,
     lovecnt: 0,
     readcnt: 0,
     comments: 0,
@@ -25,14 +26,14 @@ Page({
     isShow: false,
     isLoad: true,
     menuBackgroup: false,
-    postid: 0,
+    postid: '', // 文章ID
     inputcontent: '评论一下吧~',
-    replyid: 0,
-    SendContent: '',
-    author_name: '',
+    replyId: '0',
+    content: '',
+    username: '',
     author_email: '',
-    author_url: '',
-    userid: '',
+    avatar: '',
+    userId: '',
     formid: '',
     islogin: false,
     hiddenbutton: false,
@@ -40,54 +41,46 @@ Page({
     Email: '2448282543@qq.com',
     SaveEmail: '',
     isCanDraw: false,
-    isChange: false
+    isChange: false,
+    page: 0, // 评论分页
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options.id);
+    console.log(options)
+    // 文章id
     const id = options.id
-    const limit = options.comments
-    this._getpostData(id)
-    if (limit > 0) {
-      this._getComments(id, limit)
-    }
     this.setData({
       postid: id
     })
+    // 文章详情
+    this._getpostData(id)
+    // if (limit > 0) {
+    //评论详情
+    this._getComments(id)
+    // }
+    
   },
   onShow: function () {
     this._login()
   },
   // 判断是否登录
-  _login() {
-    var that = this
-    wx.getSetting({
-      success(res) {
-        console.log(res);
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-          wx.getUserInfo({
-            success: function (res) {
-              that.setData({
-                author_name: res.userInfo.nickName,
-                author_url: res.userInfo.avatarUrl,
-                islogin: true,
-                hiddenbutton: true
-              })
-            }
-
-          })
-        }
-      }
+  async _login() {
+    let isLogin = await $wx.checkSession()
+    this.setData({
+      islogin: isLogin,
+      hiddenbutton: isLogin,
     })
   },
 
-  //文章详情
+  // 文章详情
   _getpostData(id) {
-    getpostData(id).then(res => {
+    console.log(wx.getStorageSync('userInfo'), "wx.getStorageInfoSync('userInfo')")
+    const userId = wx.getStorageSync('userInfo')['userId'] || null;
+    const result = userId ? { id, userId } : { id }
+    getpostData(result).then(res => {
       if(res.code === 0) {
         const result = res.data
         console.log(result);
@@ -99,6 +92,7 @@ Page({
         const posttime = result.time
         const comments = result.comments
         const category_name = result.articleCategory
+        const isLike = result.isLike
         //  console.log(tags)
         this.setData({
           postContent, // 文章内容
@@ -108,7 +102,8 @@ Page({
           readcnt, //查看数量
           posttime,
           comments,
-          category_name
+          category_name,
+          isLike
         })
       }
     }).catch(err => {
@@ -118,15 +113,17 @@ Page({
   },
 
   //评论详情
-  _getComments(id, limit) {
-
-    getComments(id, limit, 1).then(res => {
-      const allcomments = res.data.data
-      //console.log(res)
-      this.setData({
-        allcomments
-      })
-      // console.log(res)
+  _getComments() {
+    const page = this.data.page + 1
+    const articleId = this.data.postid
+    getComments({articleId, page}).then(res => {
+      if(res.code === 0) {
+        const allcomments = res.data.data
+        this.setData({
+          allcomments,
+          page: page,
+        })
+      }
     }).catch(err => {
       console.log(err)
     })
@@ -172,28 +169,33 @@ Page({
   },
   //父级评论
   parentcomment(e) {
-    const inputcontent = '@' + e.detail.replyname
-    const replyid = e.detail.replyid
-    const formId = e.detail.formId
-    const userid = e.detail.userid
+    console.log('e-----------', e)
+    const { replyId, formId, replyname } = e.detail
+    const inputcontent = '@' + replyname
+    const {nickName, userId, avatar} = wx.getStorageSync('userInfo')
+    
     this.setData({
       inputcontent,
-      replyid,
-      formid: formId,
-      userid
+      replyId,
+      formId,
+      userId,
+      avatar,
+      nickName
     })
   },
   //子级评论
   childcomment(e) {
     const inputcontent = '@' + e.detail.replyname
-    const replyid = e.detail.replyid
+    const replyId = e.detail.replyId
     const formId = e.detail.formId
-    const userid = e.detail.userid
+    const userId = e.detail.userId
+    const avatar = this.data.avatar
     this.setData({
       inputcontent,
-      replyid,
+      replyId,
       formid: formId,
-      userid
+      userId,
+      avatar
     })
   },
   //评论输入框
@@ -201,41 +203,26 @@ Page({
     var content = e.detail.value.replace(/\s+/g, '');
     //console.log(content);
     this.setData({
-      SendContent: content,
+      content: content,
     });
   },
   //提交评论
   submitcontent(e) {
-    const content = this.data.SendContent
-    const replyid = this.data.replyid
-    const name = this.data.author_name
-    const url = this.data.author_url
-    const userid = this.data.userid
-    var email = ''
-    try {
-      email = wx.getStorageSync('email')
-      if (email) {
-        console.log('获取email数据成功')
-      } else {
-        email = ''
-      }
-    } catch (e) {
-      console.log('缓存失败')
+    const {nickName, userId, avatar} = wx.getStorageSync('userInfo')
+    const { content, replyId, formId, postid } = this.data
+
+    const data = {
+      username: nickName,
+      articleId: postid,
+      content, //
+      replyId, // 父级ID
+      userId,
+      formId,
+      avatar
     }
-    const datas = {
-      post: this.data.postid, //
-      author_name: name, //
-      author_email: email,
-      content: content, //
-      author_url: url,
-      parent: replyid, //
-      openid: 'ovoZ55DCVPTPzo7P85lNX03HLLoI',
-      userid: userid,
-      formId: this.data.formId
-    }
-    if (this.data.SendContent.length > 0 && email.length>0) {
-      if (this.data.islogin && this.data.SendContent.length > 0) {
-        sendComment(datas).then(res => {
+    if (this.data.content.length > 0) {
+      if (this.data.islogin && this.data.content.length > 0) {
+        sendComment(data).then(res => {
           wx.showToast({
             title: '留言成功待审核',
             icon: 'success',
@@ -268,8 +255,8 @@ Page({
       var that = this;
       //授权成功后,通过改变 isHide 的值，让实现页面显示出来，把授权页面隐藏起来
       that.setData({
-        author_name: e.detail.userInfo.nickName,
-        author_url: e.detail.userInfo.avatarUrl,
+        username: e.detail.userInfo.nickName,
+        avatar: e.detail.userInfo.avatarUrl,
         islogin: true,
         hiddenbutton: true
       });
@@ -354,31 +341,28 @@ Page({
       isCanDraw: !this.data.isCanDraw
     })
   },
+  // 点赞
   LovethisPost(e) {
+    console.log(e, '-----------')
     if (this.data.islogin) {
       const data = {
-        postid: this.data.postid,
-        openid: 'fixedafter' + this.data.author_name
+        articleId: this.data.postid,
+        userId: wx.getStorageSync('userInfo')['userId']
       }
       PostLove(data).then(res => {
-        // console.log(res)
-        var isLove = res.data.message
-        //console.log(isLove)
-        if (isLove == '点赞成功 ') {
+        console.log(res.data.isLike, 'res.isLike')
+        this.setData({
+          isLike: res.data.isLike
+        })
+        if(res.data.isLike) {
           wx.showToast({
             title: '点赞成功',
-            icon: 'success',
-            duration: 1500
-          })
-        } else if (isLove == '已点赞 ') {
-          wx.showToast({
-            title: '已点赞',
             icon: 'none',
             duration: 1500
           })
         } else {
           wx.showToast({
-            title: '点赞失败',
+            title: '取消成功',
             icon: 'none',
             duration: 1500
           })
@@ -401,8 +385,15 @@ Page({
       urls: ['https://imapi.datealive.top/zanshang/img/weipayimg.jpg'],
       current: 'https://imapi.datealive.top/zanshang/img/weipayimg.jpg' // 当前显示图片的http链接      
     })
-  }
-
+  },
+  // 向上滚动
+  onReachBottom() {
+    // this.setData({
+    //   loadModal: true
+    // })
+    this._getComments()
+    //  console.log(this.data.isload)
+  },
 
 
 })
